@@ -24,6 +24,7 @@ func Init() {
 
 	scraper.InitScrape()
 
+	log.Println("Creating daily summary")
 	summary, err := daily_summary.GetDailySummaryLocation(time.Now().Format("2006-01-02"))
 	if err != nil {
 		panic(err)
