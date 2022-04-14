@@ -6,7 +6,6 @@ require (
 	cloud.google.com/go/firestore v1.6.1
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/PuerkitoBio/goquery v1.8.0
-	github.com/dghubble/oauth1 v0.7.1
 	github.com/gocolly/colly v1.2.0
 	google.golang.org/api v0.74.0
 )
