@@ -2,6 +2,7 @@ package scrape_links
 
 import (
 	"github.com/gocolly/colly"
+	"indre-scraper/internal/db/links_db"
 	"log"
 	"strings"
 )
@@ -34,7 +35,9 @@ func cleanLinks(links []string) []string {
 	var cleanedLinks []string
 	for _, link := range links {
 		if link != "" && !strings.Contains(link, "https") {
-			cleanedLinks = append(cleanedLinks, link)
+			if exists, age := links_db.IsLinkInDB(link); !exists || age < 1 {
+				cleanedLinks = append(cleanedLinks, link)
+			}
 		}
 	}
 	cleanedLinks = removeDuplicates(cleanedLinks)
