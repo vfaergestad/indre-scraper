@@ -22,7 +22,7 @@ func Init() {
 		}
 	}()
 
-	scraper.InitScrape()
+	scraper.DoScrape()
 
 	log.Println("Creating daily summary")
 	summary, err := daily_summary.GetDailySummaryLocation(time.Now().Format("2006-01-02"))

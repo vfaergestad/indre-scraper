@@ -14,7 +14,7 @@ const (
 	baseURL    = "https://www.indre.no"
 )
 
-func InitScrape() {
+func DoScrape() {
 	log.Println("Scraping started")
 	log.Println("Retrieving links")
 	links, err := scrape_links.GetLinks(baseURL, mainDomain)
