@@ -20,6 +20,7 @@ func IsLinkInDB(link string) (bool, int) {
 			log.Println(err)
 		}
 		age := int(time.Since(ageDate).Hours() / 24)
+		log.Println("Found duplicate link")
 		return true, age
 	}
 }
