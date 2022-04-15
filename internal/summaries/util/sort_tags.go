@@ -30,7 +30,7 @@ var locations = []string{
 	"Fosser",
 	"Gan",
 	"Grasåsen",
-	"Landet rundt",
+	"Landet Rundt",
 	"Lierfoss",
 	"Lillestrøm",
 	"Løken",
