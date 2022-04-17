@@ -33,7 +33,7 @@ func GetArticle(link string) (structs.Article, error) {
 
 func GetArticlesFromRange(startDate time.Time, endDate time.Time) ([]structs.Article, error) {
 	var articles []structs.Article
-	query := db.GetClient().Collection(collection).Where("published", ">=", startDate).Where("date", "<=", endDate)
+	query := db.GetClient().Collection(collection).Where("PublishedTime", ">=", startDate).Where("PublishedTime", "<=", endDate)
 	iter := query.Documents(db.GetContext())
 	for {
 		doc, err := iter.Next()
