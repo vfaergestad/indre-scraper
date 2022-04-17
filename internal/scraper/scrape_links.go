@@ -1,9 +1,8 @@
-package scrape_links
+package scraper
 
 import (
 	"github.com/gocolly/colly"
-	"indre-scraper/internal/db/links_db"
-	"log"
+	"indre-scraper/internal/db/articles_db"
 	"strings"
 )
 
@@ -24,10 +23,6 @@ func GetLinks(url string, domain string) ([]string, error) {
 		return nil, err
 	}
 
-	for _, link := range links {
-		log.Println(link)
-	}
-
 	return links, nil
 }
 
@@ -35,7 +30,7 @@ func cleanLinks(links []string) []string {
 	var cleanedLinks []string
 	for _, link := range links {
 		if link != "" && !strings.Contains(link, "https") {
-			if exists, age := links_db.IsLinkInDB(link); !exists || age < 1 {
+			if _, err := articles_db.GetArticle(link); err != nil {
 				cleanedLinks = append(cleanedLinks, link)
 			}
 		}
