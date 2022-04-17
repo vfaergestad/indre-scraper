@@ -3,9 +3,6 @@ package internal
 import (
 	"indre-scraper/internal/db"
 	"indre-scraper/internal/scraper"
-	"indre-scraper/internal/summaries/daily_summary"
-	"log"
-	"time"
 )
 
 func Init() {
@@ -24,10 +21,4 @@ func Init() {
 
 	scraper.DoScrape()
 
-	log.Println("Creating daily summary")
-	summary, err := daily_summary.GetDailySummaryLocation(time.Now().Format("2006-01-02"))
-	if err != nil {
-		panic(err)
-	}
-	log.Println(summary)
 }

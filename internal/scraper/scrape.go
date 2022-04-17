@@ -1,12 +1,8 @@
 package scraper
 
 import (
-	"github.com/PuerkitoBio/goquery"
-	"indre-scraper/internal/db/links_db"
-	"indre-scraper/internal/db/tags_db"
-	"indre-scraper/internal/scraper/scrape_links"
+	"indre-scraper/internal/db/articles_db"
 	"log"
-	"net/http"
 )
 
 const (
@@ -16,54 +12,29 @@ const (
 
 func DoScrape() {
 	log.Println("Scraping started")
-	log.Println("Retrieving links")
-	links, err := scrape_links.GetLinks(baseURL, mainDomain)
+	log.Println("Retrieving new links")
+	links, err := GetLinks(baseURL, mainDomain)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	log.Println("Adding links to database")
-	err = links_db.AddLinksToDB(links)
-	if err != nil {
-		log.Println(err)
+	if len(links) == 0 {
+		log.Println("No new links found")
+		return
+	} else {
+		log.Printf("Found %d new links", len(links))
 	}
 
-	log.Println("Retrieving tags")
-	tags := countTags(links)
-	log.Println("Adding tags to database")
-	err = tags_db.AddTodayTags(tags)
-	if err != nil {
-		log.Println(err)
-	}
-}
-
-func countTags(links []string) map[string]int {
-	tags := make(map[string]int)
-	for _, link := range links {
-		//log.Println("\nGetting tags from: " + link)
-		url := baseURL + link
-		res, err := http.Get(url)
+	log.Println("Scraping links")
+	for i, link := range links {
+		log.Printf("%d of %d: %s", i+1, len(links), link)
+		article, err := ScrapeArticle(link)
 		if err != nil {
 			log.Println(err)
 		}
-
-		if res.StatusCode != http.StatusOK {
-			log.Printf("Error: %s", res.Status)
-			continue
-		}
-
-		doc, err := goquery.NewDocumentFromReader(res.Body)
+		err = articles_db.AddArticle(article)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
-
-		doc.Find("meta").Each(func(i int, s *goquery.Selection) {
-			if s.AttrOr("property", "") == "article:tag" {
-				tag := s.AttrOr("content", "")
-				//log.Println("Found tag: " + tag)
-				tags[tag]++
-			}
-		})
 	}
-	return tags
+	log.Println("Scraping finished")
 }
