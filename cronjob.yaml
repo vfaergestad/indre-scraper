@@ -17,4 +17,5 @@ spec:
           containers:
             - name: news-scraper
               image: vfaergestad/news-scraper:latest
+              imagePullPolicy: Always
           restartPolicy: Never
