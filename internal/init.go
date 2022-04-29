@@ -2,10 +2,7 @@ package internal
 
 import (
 	"indre-scraper/internal/db"
-	"indre-scraper/internal/db/articles_db"
-	"indre-scraper/internal/summaries/util"
-	"log"
-	"time"
+	"indre-scraper/internal/scraper"
 )
 
 func Init() {
@@ -22,9 +19,9 @@ func Init() {
 		}
 	}()
 
-	//scraper.DoScrape()
+	scraper.DoScrape()
 
-	articles, err := articles_db.GetArticlesFromRange(time.Now().Add(-24*30*time.Hour), time.Now())
+	/*articles, err := articles_db.GetArticlesFromRange(time.Now().Add(-24*30*time.Hour), time.Now())
 	if err != nil {
 		panic(err)
 	}
@@ -33,5 +30,5 @@ func Init() {
 	sortedTags := util.SortTags(tags)
 	for _, tag := range sortedTags {
 		log.Printf("%s: %d", tag, tags[tag])
-	}
+	}*/
 }
