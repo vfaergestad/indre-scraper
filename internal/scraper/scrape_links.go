@@ -29,7 +29,7 @@ func GetLinks(url string, domain string) ([]string, error) {
 func cleanLinks(links []string) []string {
 	var cleanedLinks []string
 	for _, link := range links {
-		if link != "" && !strings.Contains(link, "https") {
+		if link != "" && !strings.Contains(link, "https") && !strings.Contains(link, ".ece") {
 			if _, err := articles_db.GetArticle(link); err != nil {
 				cleanedLinks = append(cleanedLinks, link)
 			}
